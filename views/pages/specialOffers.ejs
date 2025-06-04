@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Special Offers</title>
+    <link rel="stylesheet" href="/css/specialoffer.css" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="/img/TT logo.png" alt="Logo" class="logo-img" />
+                Tour and Travel
+                <p class="tagline">“Unforgettable Experiences Awaits: Join Us on a Travel Adventure!”</p>
+            </div>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/specialOffers">Special Offers</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <% if (user) { %>
+                    <li><a href="/logout">Logout</a></li>
+                    <% } else { %>
+                        <li><a href="/login">Login</a></li>
+                        <% } %>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="banner">
+        <img src="/img/6427dc5e6f4d14d1aff625f18193eae5.jpg" alt="Special Offers Banner" />
+    </section>
+
+    <section class="offers">
+        <h2>Special Offers</h2>
+        <div class="offer-list">
+            <% if (offers && offers.length> 0) { %>
+                <% offers.forEach(offer=> { %>
+                    <div class="offer-card" style="position: relative;">
+                        <img src="<%= offer.image_url %>" alt="<%= offer.title %>" />
+                        <div class="offer-info">
+                            <h3>
+                                <%= offer.title %>
+                            </h3>
+                            <p>
+                                <span>🕒 <%= offer.duration %></span> &nbsp;
+                                <span>📍 <%= offer.location %></span>
+                            </p>
+                            <p>
+                                <%= offer.description %>
+                            </p>
+                            <p>
+                                <span style="text-decoration: line-through; color: #999;">$<%= offer.price %></span>
+                                <span style="color: crimson; font-weight: bold;">$<%= offer.discount_price %></span>
+                            </p>
+                            <div class="rating">⭐ <%= offer.rating || 4.5 %>
+                            </div>
+                            <a href="/booking" class="btn">Book Now</a>
+                        </div>
+
+                        <% if (offer.price> offer.discount_price) { %>
+                            <div
+                                style="position: absolute; top: 10px; right: 10px; background: #1abc9c; color: white; padding: 5px 10px; border-radius: 5px;">
+                                <%= Math.round((offer.price - offer.discount_price) / offer.price * 100) %>% OFF
+                            </div>
+                            <% } %>
+                    </div>
+                    <% }) %>
+                        <% } else { %>
+                            <p style="text-align:center;">No special offers available at the moment.</p>
+                            <% } %>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Tour and Travel. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

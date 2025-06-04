@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/booking.css" />
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="/img/TT logo.png" alt="Logo" class="logo-img" />
+            Tour and Travel
+        </div>
+        <p class="tagline">“Unforgettable Experiences Awaits: Join Us on a Travel Adventure!”</p>
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/specialOffers">Special Offer</a></li>
+                <li><a href="/services">Service</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <% if (user) { %>
+                    <li><a href="/logout">Logout</a></li>
+                    <% } else { %>
+                        <li><a href="/login">Login</a></li>
+                        <% } %>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Book Your Adventure</h2>
+
+        <form action="/booking" method="POST">
+            <div class="booking-details">
+
+                <label for="customer_name">Full Name</label>
+                <input type="text" name="customer_name" id="customer_name" required />
+
+                <label for="destination">Destination</label>
+                <select name="destination" id="destination" required>
+                    <option value="Thimphu, Bhutan">Thimphu, Bhutan</option>
+                    <option value="Paro, Bhutan">Paro, Bhutan</option>
+                    <option value="Punakha, Bhutan">Punakha, Bhutan</option>
+                </select>
+
+                <label>Choose a Package</label>
+                <div class="card-container">
+
+                    <label class="card">
+                        <input type="radio" name="package" value="Cultural Tour" required />
+                        <div class="card-title">Cultural Tour</div>
+                        <div class="card-description">7 days exploring ancient temples and traditions</div>
+                        <span class="card-price">$1499</span>
+                    </label>
+
+                    <label class="card">
+                        <input type="radio" name="package" value="Mountain Trek" required />
+                        <div class="card-title">Mountain Trek</div>
+                        <div class="card-description">10-day hiking expedition in the Himalayas</div>
+                        <span class="card-price">$1749</span>
+                    </label>
+
+                    <label class="card">
+                        <input type="radio" name="package" value="Festival Special" required />
+                        <div class="card-title">Festival Special</div>
+                        <div class="card-description">5 days experiencing traditional festivals</div>
+                        <span class="card-price">$1439</span>
+                    </label>
+
+                </div>
+
+                <label for="guests">Number of Guests</label>
+                <input type="number" name="guests" id="guests" required min="1" />
+
+                <label for="date">Preferred Date</label>
+                <input type="date" name="date" id="date" required />
+
+                <label for="email">Email Address</label>
+                <input type="email" name="email" id="email" required />
+
+                <label for="phone">Phone Number</label>
+                <input type="text" name="phone" id="phone" required />
+
+            </div>
+
+            <button type="submit">Book Now</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>For Detail Information</p>
+        <p>📞 17777299</p>
+        <p>📍 Thimphu, Bhutan</p>
+    </footer>
+</body>
+
+</html>

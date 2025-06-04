@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Special Offers</title>
+    <link rel="stylesheet" href="/css/services.css" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="/img/TT logo.png" alt="Logo" class="logo-img" />
+                Tour and Travel
+                <p class="tagline">“Unforgettable Experiences Awaits: Join Us on a Travel Adventure!”</p>
+            </div>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/specialOffers">Special Offers</a></li>
+                <li><a href="/services">Services</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <% if (user) { %>
+                    <li><a href="/logout">Logout</a></li>
+                    <% } else { %>
+                        <li><a href="/login">Login</a></li>
+                        <% } %>
+            </ul>
+
+        </nav>
+    </header>
+
+<body>
+    <header class="header">
+        <h1>Our Services</h1>
+        <p class="subtitle">
+            Discover our comprehensive range of services designed to make your Bhutan journey unforgettable.
+        </p>
+    </header>
+
+    <div class="service-list">
+        <% services.forEach(service=> { %>
+            <div class="service-card">
+                <img src="<%= service.image %>" alt="<%= service.title %>">
+                <div class="service-info">
+                    <h2>
+                        <%= service.title %>
+                    </h2>
+                    <p>
+                        <%= service.fullDesc %>
+                    </p>
+                </div>
+            </div>
+            <% }); %>
+    </div>
+    
+
+    <footer class="footer">
+        <div>📞 +975 77778888</div>
+        <div>📍 Thimphu, Bhutan</div>
+        <div>📧 support@tourtravel.com</div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+.edit-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    max-width: 900px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.edit-form label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.edit-form input,
+.edit-form select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.edit-form button {
+    grid-column: span 2;
+    padding: 10px 20px;
+    background-color: teal;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-form button:hover {
+    background-color: teal;
+}
+
+@media (max-width: 600px) {
+    .edit-form {
+        grid-template-columns: 1fr;
+    }
+
+    .edit-form button {
+        grid-column: span 1;
+        width: 100%;
+    }
+}

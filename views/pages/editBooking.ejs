@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="/css/edit.css" />
+<form action="/admin/edit/<%= booking.id %>" method="POST" class="edit-form">
+    <label for="package">Package</label>
+    <input type="text" id="package" name="package" value="<%= booking.package %>" required>
+
+    <label for="guests">Guests</label>
+    <input type="number" id="guests" name="guests" value="<%= booking.guests %>" min="1" required>
+
+    <label for="date">Date</label>
+    <input type="date" id="date" name="date" value="<%= booking.date.toISOString().slice(0, 10) %>" required>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" value="<%= booking.email %>" required>
+
+    <label for="phone">Phone</label>
+    <input type="text" id="phone" name="phone" value="<%= booking.phone %>" required>
+
+    <label for="status">Status</label>
+    <select id="status" name="status" required>
+        <option value="Pending" <%=booking.status==='Pending' ? 'selected' : '' %>>Pending</option>
+        <option value="Confirmed" <%=booking.status==='Confirmed' ? 'selected' : '' %>>Confirmed</option>
+        <option value="Cancelled" <%=booking.status==='Cancelled' ? 'selected' : '' %>>Cancelled</option>
+    </select>
+
+    <button type="submit">Update Booking</button>
+</form>
