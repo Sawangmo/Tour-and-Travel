@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const bookingController = require('../controllers/bookingController');
-const { ensureAdmin } = require('../middleware/authMiddleware');
+const { ensureAdmin } = require('../Middleware/authMiddleware');
 
 // Protect all admin routes
 router.use(ensureAdmin);
