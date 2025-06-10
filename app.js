@@ -41,6 +41,10 @@ const serviceRoutes = require('./routes/serviceRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const bookingsRoute = require('./routes/bookings');
 
+app.get('/', (req, res) => {
+  res.render('pages/landing'); // Renders the landing.ejs page
+});
+
 // Use routes
 app.use('/', authRoutes);
 app.use('/', homeRoutes);
@@ -49,6 +53,8 @@ app.use('/', bookingRoutes);
 app.use('/services', serviceRoutes);
 app.use('/', contactRoutes);
 app.use('/', bookingsRoute);
+
+
 
 // Custom Routes
 app.get('/specialOffers', (req, res) => {
