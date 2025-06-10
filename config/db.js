@@ -7,6 +7,9 @@ const dbConfig = {
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
   password: 'baby@2025',
+  ssl:{
+    rejectUnauthorized: false
+  }
 };
 
 const db = pgp(dbConfig);
