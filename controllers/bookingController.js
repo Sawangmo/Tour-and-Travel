@@ -1,6 +1,6 @@
 const bookingModel = require('../models/bookingModel');
 const db = require('../config/db');
-
+const bookingModel = require('../models/userModel');
 // Render the booking page with available packages
 exports.getBookingPage = (req, res) => {
   const packages = [
