@@ -1,17 +1,14 @@
 const pgp = require('pg-promise')();
 require('dotenv').config();
 
-const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT) || 5432,
+const db = pgp({
+  host: process.env.DB_HOST,
+  port: 5432,
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false
-};
-
-console.log("Loaded DB config:", dbConfig);
-
-const db = pgp(dbConfig);
-
-module.exports = db;
+  password: process.env.DB_PASS,
+  ssl: {
+    rejectUnauthorized: false,
+  }
+});
+module.exports = db;
