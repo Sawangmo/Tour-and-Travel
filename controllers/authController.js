@@ -14,32 +14,27 @@ exports.postLogin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Find user
     const user = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
     if (!user) {
       return res.render('pages/login', { message: 'Invalid email or password.' });
     }
 
-    // Check if verified
     if (!user.is_verified) {
       return res.render('pages/login', { message: 'Please verify your email before logging in.' });
     }
 
-    // Check password
     const match = await bcrypt.compare(password, user.password);
     if (!match) {
       return res.render('pages/login', { message: 'Invalid email or password.' });
     }
 
-    // Store session
     req.session.user = {
       id: user.id,
       email: user.email,
       role: user.role,
-      username: user.username
+      username: user.name || user.username
     };
 
-    // Redirect
     return res.redirect(user.role === 'admin' ? '/admin' : '/home');
 
   } catch (error) {
@@ -58,31 +53,27 @@ exports.postSignup = async (req, res) => {
   const { username, email, password } = req.body;
   const role = 'user';
   const token = crypto.randomBytes(32).toString('hex');
+  const tokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
   try {
-    // Validate
     if (!username || !email || !password) {
       return res.render('pages/signup', { message: 'All fields are required.' });
     }
 
-    // Check duplicate
     const existingUser = await db.oneOrNone('SELECT * FROM users WHERE email = $1', [email]);
     if (existingUser) {
       return res.render('pages/signup', { message: 'Email already registered.' });
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Insert user
     await db.none(
-      `INSERT INTO users (username, email, password, role, is_verified, verification_token, created_at)
-       VALUES ($1, $2, $3, $4, $5, $6, NOW())`,
-      [username, email, hashedPassword, role, false, token]
+      `INSERT INTO users (name, email, password, role, is_verified, verification_token, token_expires, created_at)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())`,
+      [username, email, hashedPassword, role, false, token, tokenExpires]
     );
 
-    // Log and send verification email
-    console.log(`Verify email at: http://localhost:5000/verify-email?token=${token}`);
+    console.log(`Verification link: http://localhost:5000/verify-email?token=${token}`);
     await sendVerificationEmail(email, token);
 
     res.send('Signup successful! Please check your email to verify your account.');
@@ -102,13 +93,19 @@ exports.verifyEmail = async (req, res) => {
   }
 
   try {
-    const user = await db.oneOrNone('SELECT * FROM users WHERE verification_token = $1', [token]);
+    const user = await db.oneOrNone(
+      `SELECT * FROM users WHERE verification_token = $1 AND token_expires > NOW()`,
+      [token]
+    );
 
     if (!user) {
       return res.status(400).send('Invalid or expired token.');
     }
 
-    await db.none('UPDATE users SET is_verified = true, verification_token = NULL WHERE id = $1', [user.id]);
+    await db.none(
+      `UPDATE users SET is_verified = true, verification_token = NULL, token_expires = NULL WHERE id = $1`,
+      [user.id]
+    );
 
     res.send('✅ Email verified successfully! You can now log in.');
 

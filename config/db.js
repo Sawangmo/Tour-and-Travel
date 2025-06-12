@@ -6,11 +6,12 @@ const dbConfig = {
   port: parseInt(process.env.DB_PORT) || 5432,
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
-  password: 'baby@2025',
+  password: process.env.DB_PASSWORD,
+  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false
 };
 
-const db = pgp(dbConfig);
 console.log("Loaded DB config:", dbConfig);
 
+const db = pgp(dbConfig);
 
 module.exports = db;
